@@ -908,7 +908,7 @@ class ECSWorker(BaseWorker):
             and "FARGATE" not in task_definition["requiresCompatibilities"]
         ):
             raise ValueError(
-                "Task definition does not have 'FARGATE' in 'requiresCompatibilities'"
+                "Task definition does not have 'FARGATE' or 'FARGATE SPOT' in 'requiresCompatibilities'"
                 f" and cannot be used with launch type {launch_type!r}"
             )
 
