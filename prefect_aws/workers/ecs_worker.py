@@ -44,6 +44,7 @@ a task definition is provided, the worker will never create a new task definitio
 may result in variables that are templated into the task definition payload being
 ignored.
 """
+
 import copy
 import json
 import logging
@@ -903,7 +904,7 @@ class ECSWorker(BaseWorker):
             "launchType", ECS_DEFAULT_LAUNCH_TYPE
         )
         if (
-            launch_type != "EC2"
+            launch_type not in ["EC2", "EXTERNAL"]
             and "FARGATE" not in task_definition["requiresCompatibilities"]
         ):
             raise ValueError(
@@ -1342,8 +1343,7 @@ class ECSWorker(BaseWorker):
             )
             raise ValueError(
                 f"Failed to find {vpc_message}. "
-                "Network configuration cannot be inferred. "
-                + help_message
+                "Network configuration cannot be inferred. " + help_message
             )
 
         vpc_id = vpcs[0]["VpcId"]
